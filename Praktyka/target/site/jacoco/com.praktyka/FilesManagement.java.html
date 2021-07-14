@@ -1,119 +1,123 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pl"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FilesManagement.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Praktyka</a> &gt; <a href="index.source.html" class="el_package">com.praktyka</a> &gt; <span class="el_source">FilesManagement.java</span></div><h1>FilesManagement.java</h1><pre class="source lang-java linenums">package com.praktyka;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pl"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FilesManagement.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">praktyka</a> &gt; <a href="index.source.html" class="el_package">com.praktyka</a> &gt; <span class="el_source">FilesManagement.java</span></div><h1>FilesManagement.java</h1><pre class="source lang-java linenums">package com.praktyka;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileFilter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+
+
+import java.time.Instant;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 public class FilesManagement {
+<span class="nc" id="L22">    private static final Logger LOGGER = Logger.getLogger( FilesManagement.class.getName() );</span>
 
-    public String dir;
+    private final String dir;
 
-<span class="fc" id="L16">    public FilesManagement(String directory){</span>
-<span class="fc" id="L17">        dir =  directory + &quot;\\&quot;;</span>
-<span class="fc" id="L18">    }</span>
+<span class="nc" id="L26">    public FilesManagement(String directory){</span>
+<span class="nc" id="L27">        dir =  directory + &quot;\\&quot;;</span>
+<span class="nc" id="L28">    }</span>
 
     public boolean exists(String path){
-<span class="fc bfc" id="L21" title="All 2 branches covered.">        if (new File(dir + path).isFile()) {</span>
-<span class="fc" id="L22">            System.out.println(&quot;File:&quot; + path + &quot; - exists&quot;);</span>
-<span class="fc" id="L23">            return true;</span>
-        }
-        else {
-<span class="fc" id="L26">            System.out.println(&quot;File:&quot; + path + &quot; - does not exist&quot;);</span>
-<span class="fc" id="L27">            return false;</span>
-        }
-    }
-
-    public boolean info(String path) {
-<span class="fc" id="L32">        File file = new File(dir + path);</span>
-<span class="fc bfc" id="L33" title="All 2 branches covered.">        if (file.isFile()){</span>
-<span class="fc" id="L34">            System.out.println(&quot;File name:&quot; + file.getName());</span>
-<span class="fc" id="L35">            System.out.println(&quot;File path:&quot; + file.getAbsolutePath());</span>
-<span class="fc" id="L36">            System.out.println(&quot;File size:&quot; + file.length() +&quot; bytes&quot;);</span>
-<span class="fc" id="L37">            System.out.println(&quot;File last time modified:&quot; + new Date(file.lastModified())+&quot;\n&quot;);</span>
-<span class="fc" id="L38">            return true;</span>
-        }
-        else {
-<span class="fc" id="L41">            System.out.println(&quot;File doesnt exist.&quot;);</span>
-<span class="fc" id="L42">            return false;</span>
+<span class="nc bnc" id="L31" title="All 2 branches missed.">        if (new File(dir + path).isFile()) {</span>
+<span class="nc" id="L32">            LOGGER.log(Level.INFO, &quot;{0} - exists.&quot;, path);</span>
+<span class="nc" id="L33">            return true;</span>
+        } else {
+<span class="nc" id="L35">            LOGGER.log(Level.INFO, &quot;{0} - does not exist.&quot;, path);</span>
+<span class="nc" id="L36">            return false;</span>
         }
     }
 
-    public boolean info(String dateFrom, String dateTo) {
+    public File info(String path) {
+<span class="nc" id="L41">        File file = new File(dir + path);</span>
+<span class="nc bnc" id="L42" title="All 2 branches missed.">        if (file.isFile()){</span>
+<span class="nc" id="L43">            LOGGER.log(Level.INFO, &quot;File name: {0} &quot;, file.getName());</span>
+<span class="nc" id="L44">            LOGGER.log(Level.INFO, &quot;File path: {0} &quot;, file.getAbsolutePath());</span>
+<span class="nc" id="L45">            LOGGER.log(Level.INFO, &quot;File size: {0} bytes &quot;, file.length());</span>
+<span class="nc" id="L46">            LocalDate localdate = Instant.ofEpochMilli(file.lastModified())</span>
+<span class="nc" id="L47">                    .atZone(ZoneId.systemDefault()).toLocalDate();</span>
+<span class="nc" id="L48">            LOGGER.log(Level.INFO, &quot;File last time modified: {0} &quot;, localdate);</span>
+<span class="nc" id="L49">            return file;</span>
+        } else {
+<span class="nc" id="L51">            LOGGER.log(Level.INFO, &quot;file does not exist.&quot;);</span>
+<span class="nc" id="L52">            return null;</span>
+        }
+    }
+
+    public File[] info(String dateFrom, String dateTo) {
+<span class="nc" id="L57">        final DateTimeFormatter dtf = DateTimeFormatter.ofPattern(&quot;dd/MM/yyyy&quot;);</span>
+<span class="nc" id="L58">        LocalDate date1 = LocalDate.parse(dateFrom, dtf);</span>
+<span class="nc" id="L59">        LocalDate date2 = LocalDate.parse(dateTo, dtf);</span>
+
+<span class="nc bnc" id="L61" title="All 2 branches missed.">        if (date2.isBefore(date1)) {</span>
+            LocalDate temp;
+<span class="nc" id="L63">            temp = date1;</span>
+<span class="nc" id="L64">            date1 = date2;</span>
+<span class="nc" id="L65">            date2 = temp;</span>
+        }
+
+<span class="nc" id="L68">        LocalDate finalDate = date1;</span>
+<span class="nc" id="L69">        LocalDate finalDate2 = date2;</span>
+
+<span class="nc" id="L71">        FileFilter fileFilter = (File file) -&gt; {</span>
+<span class="nc bnc" id="L72" title="All 2 branches missed.">            if (!file.isFile()) {</span>
+<span class="nc" id="L73">                return false;</span>
+            }
+<span class="nc" id="L75">            LocalDate localdate = Instant.ofEpochMilli(file.lastModified())</span>
+<span class="nc" id="L76">                    .atZone(ZoneId.systemDefault()).toLocalDate();</span>
+<span class="nc bnc" id="L77" title="All 4 branches missed.">            return localdate.isAfter(finalDate) &amp;&amp; localdate.isBefore(finalDate2);</span>
+        };
+
+<span class="nc" id="L80">        File directory = new File(dir);</span>
+<span class="nc" id="L81">        File[] files = directory.listFiles(fileFilter);</span>
+<span class="nc bnc" id="L82" title="All 2 branches missed.">        if (files != null) {</span>
+<span class="nc bnc" id="L83" title="All 2 branches missed.">            for (File file : files) {</span>
+<span class="nc" id="L84">                LOGGER.log(Level.INFO, &quot;File name: {0} &quot;, file.getName());</span>
+<span class="nc" id="L85">                LOGGER.log(Level.INFO, &quot;File path: {0} &quot;, file.getAbsolutePath());</span>
+<span class="nc" id="L86">                LOGGER.log(Level.INFO, &quot;File size: {0} bytes &quot;, file.length());</span>
+<span class="nc" id="L87">                LocalDate localdate = Instant.ofEpochMilli(file.lastModified())</span>
+<span class="nc" id="L88">                        .atZone(ZoneId.systemDefault()).toLocalDate();</span>
+<span class="nc" id="L89">                LOGGER.log(Level.INFO, &quot;File last time modified: {0} &quot;, localdate);</span>
+            }
+<span class="nc" id="L91">            return files;</span>
+        }
+<span class="nc" id="L93">        return null;</span>
+    }
+
+    public void createFile(String path, String content) {
         try {
-<span class="nc" id="L48">            Date date1 = new SimpleDateFormat(&quot;dd/MM/yyyy&quot;).parse(dateFrom);</span>
-<span class="nc" id="L49">            Date date2 = new SimpleDateFormat(&quot;dd/MM/yyyy&quot;).parse(dateTo);</span>
-
-<span class="nc bnc" id="L51" title="All 2 branches missed.">            if (date2.before(date1)) {</span>
-                Date temp;
-<span class="nc" id="L53">                temp = date1;</span>
-<span class="nc" id="L54">                date1 = date2;</span>
-<span class="nc" id="L55">                date2 = temp;</span>
+<span class="nc" id="L98">            File newFile = new File(dir + path);</span>
+<span class="nc bnc" id="L99" title="All 2 branches missed.">            if (newFile.createNewFile()) {</span>
+<span class="nc" id="L100">                LOGGER.log(Level.INFO, &quot;File created.&quot;);</span>
+<span class="nc" id="L101">                PrintWriter printWriter = new PrintWriter(dir + path, StandardCharsets.UTF_8);</span>
+<span class="nc" id="L102">                printWriter.write(content);</span>
+<span class="nc" id="L103">                printWriter.close();</span>
+<span class="nc" id="L104">            } else {</span>
+<span class="nc" id="L105">                LOGGER.log(Level.INFO, &quot;File already exists.&quot;);</span>
             }
 
-<span class="nc" id="L58">            Date finalDate = date1;</span>
-<span class="nc" id="L59">            Date finalDate2 = date2;</span>
-
-<span class="nc" id="L61">            FileFilter fileFilter = file -&gt; {</span>
-<span class="nc bnc" id="L62" title="All 2 branches missed.">                if (!file.isFile()) return false;</span>
-<span class="nc" id="L63">                Date lastModified = new Date(file.lastModified());</span>
-<span class="nc bnc" id="L64" title="All 4 branches missed.">                return lastModified.after(finalDate) &amp;&amp; lastModified.before(finalDate2);</span>
-            };
-
-<span class="nc" id="L67">            File directory = new File(dir);</span>
-<span class="nc" id="L68">            File[] files = directory.listFiles(fileFilter);</span>
-<span class="nc bnc" id="L69" title="All 2 branches missed.">            if (files != null) {</span>
-<span class="nc bnc" id="L70" title="All 2 branches missed.">                for (File file : files) {</span>
-                    try {
-<span class="nc" id="L72">                        System.out.println(&quot;File name:&quot; + file.getName());</span>
-<span class="nc" id="L73">                        System.out.println(&quot;File path:&quot; + file.getAbsolutePath());</span>
-<span class="nc" id="L74">                        System.out.println(&quot;File size:&quot; + file.length() + &quot; bytes&quot;);</span>
-<span class="nc" id="L75">                        System.out.println(&quot;File last time modified:&quot; + new Date(file.lastModified()) + &quot;\n&quot;);</span>
-<span class="nc" id="L76">                    } catch (Exception e) {</span>
-<span class="nc" id="L77">                        e.printStackTrace();</span>
-<span class="nc" id="L78">                    }</span>
-<span class="nc" id="L79">                    return true;</span>
-                }
-            }
-<span class="nc" id="L82">        } catch (ParseException e) {</span>
-<span class="nc" id="L83">            e.printStackTrace();</span>
-<span class="nc" id="L84">        }</span>
-<span class="nc" id="L85">        return false;</span>
-    }
-
-    public void createFile(String path, String Content) {
-        try {
-<span class="fc" id="L90">            File newFile = new File(dir + path);</span>
-<span class="pc bpc" id="L91" title="1 of 2 branches missed.">            if (newFile.createNewFile()) {</span>
-<span class="fc" id="L92">                System.out.println(&quot;File created.&quot;);</span>
-<span class="fc" id="L93">                PrintWriter printWriter = new PrintWriter(dir + path, StandardCharsets.UTF_8);</span>
-<span class="fc" id="L94">                printWriter.write(Content);</span>
-<span class="fc" id="L95">                printWriter.close();</span>
-<span class="fc" id="L96">            } else {</span>
-<span class="nc" id="L97">                System.out.println(&quot;File already exists.&quot;);</span>
-            }
-
-        }
-<span class="nc" id="L101">         catch (IOException e) {</span>
-<span class="nc" id="L102">             System.out.println(&quot;An error occurred while creating or writing to a file.&quot;);</span>
-<span class="nc" id="L103">             e.printStackTrace();</span>
-<span class="fc" id="L104">        }</span>
-
-
-<span class="fc" id="L107">    }</span>
+<span class="nc" id="L108">        } catch (IOException e) {</span>
+<span class="nc" id="L109">            LOGGER.log( Level.SEVERE, e.toString(), e );</span>
+<span class="nc" id="L110">        }</span>
+<span class="nc" id="L111">    }</span>
 
     public String readFile(String path) {
         try {
-<span class="fc" id="L111">            String content = Files.readString(Paths.get(dir + path));</span>
-<span class="fc" id="L112">            System.out.println(content + &quot;\n&quot;);</span>
-<span class="fc" id="L113">            return content;</span>
-<span class="nc" id="L114">        } catch (IOException e) {</span>
-<span class="nc" id="L115">            e.printStackTrace();</span>
-<span class="nc" id="L116">            return null;</span>
+<span class="nc" id="L115">            String content = Files.readString(Paths.get(dir + path));</span>
+<span class="nc" id="L116">            LOGGER.log( Level.INFO, content);</span>
+<span class="nc" id="L117">            return content;</span>
+<span class="nc" id="L118">        } catch (IOException e) {</span>
+<span class="nc" id="L119">            LOGGER.log( Level.SEVERE, e.toString(), e );</span>
+<span class="nc" id="L120">            return null;</span>
         }
     }
 

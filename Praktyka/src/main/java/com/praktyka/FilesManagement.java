@@ -12,13 +12,15 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
-import java.util.logging.*;
+
 import java.time.Instant;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 public class FilesManagement {
     private static final Logger LOGGER = Logger.getLogger( FilesManagement.class.getName() );
-    
+
     private final String dir;
 
     public FilesManagement(String directory){
@@ -35,7 +37,7 @@ public class FilesManagement {
         }
     }
 
-    public boolean info(String path) {
+    public File info(String path) {
         File file = new File(dir + path);
         if (file.isFile()){
             LOGGER.log(Level.INFO, "File name: {0} ", file.getName());
@@ -44,14 +46,14 @@ public class FilesManagement {
             LocalDate localdate = Instant.ofEpochMilli(file.lastModified())
                     .atZone(ZoneId.systemDefault()).toLocalDate();
             LOGGER.log(Level.INFO, "File last time modified: {0} ", localdate);
-            return true;
+            return file;
         } else {
             LOGGER.log(Level.INFO, "file does not exist.");
-            return false;
+            return null;
         }
     }
 
-    public boolean info(String dateFrom, String dateTo) {
+    public File[] info(String dateFrom, String dateTo) {
         final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDate date1 = LocalDate.parse(dateFrom, dtf);
         LocalDate date2 = LocalDate.parse(dateTo, dtf);
@@ -65,7 +67,6 @@ public class FilesManagement {
 
         LocalDate finalDate = date1;
         LocalDate finalDate2 = date2;
-
 
         FileFilter fileFilter = (File file) -> {
             if (!file.isFile()) {
@@ -87,9 +88,9 @@ public class FilesManagement {
                         .atZone(ZoneId.systemDefault()).toLocalDate();
                 LOGGER.log(Level.INFO, "File last time modified: {0} ", localdate);
             }
-            return true;
+            return files;
         }
-        return false;
+        return null;
     }
 
     public void createFile(String path, String content) {
@@ -107,8 +108,6 @@ public class FilesManagement {
         } catch (IOException e) {
             LOGGER.log( Level.SEVERE, e.toString(), e );
         }
-
-
     }
 
     public String readFile(String path) {

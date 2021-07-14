@@ -1,2 +1,5 @@
+com\praktyka\PostRequest.class
 com\praktyka\FilesManagement.class
+com\praktyka\PostResponse.class
+com\praktyka\WebController.class
 com\praktyka\Main.class

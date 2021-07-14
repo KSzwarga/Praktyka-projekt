@@ -102,6 +102,9 @@
       <command value="mvn clean" />
       <command value="mvn install" />
       <command value="mvn sonar:sonar" />
+      <command value="mvn sp" />
+      <command value="mvn clean install" />
+      <command value="mvn spring-boot:run" />
     </option>
   </component>
   <component name="RunManager" selected="Application.Main">
@@ -118,13 +121,15 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
           <option name="containerStateName" value="" />
         </value>
       </option>
-      <option name="TEST_OBJECT" value="class" />
+      <option name="TEST_OBJECT" value="CLASS" />
+      <properties />
+      <listeners />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -134,6 +139,16 @@
       <option name="PACKAGE_NAME" value="" />
       <option name="MAIN_CLASS_NAME" value="FilesTest" />
       <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="FilesTest.testInfoDateSwapIsCorrect" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Praktyka" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="FilesTest" />
+      <option name="METHOD_NAME" value="testInfoDateSwapIsCorrect" />
+      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -158,23 +173,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="FilesTest.test_readFile" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="Praktyka" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="FilesTest" />
-      <option name="METHOD_NAME" value="test_readFile" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Application.Main" />
-        <item itemvalue="JUnit.FilesTest" />
         <item itemvalue="JUnit.FilesTest.test_createFile_createdTextIsCorrect" />
+        <item itemvalue="JUnit.FilesTest.testInfoDateSwapIsCorrect" />
+        <item itemvalue="JUnit.FilesTest" />
         <item itemvalue="JUnit.FilesTest.test_createFile_FileIsCreated" />
-        <item itemvalue="JUnit.FilesTest.test_readFile" />
       </list>
     </recent_temporary>
   </component>
@@ -206,7 +211,8 @@
       <workItem from="1626167183931" duration="1908000" />
       <workItem from="1626173886562" duration="7761000" />
       <workItem from="1626243796764" duration="515000" />
-      <workItem from="1626244424342" duration="2377000" />
+      <workItem from="1626244424342" duration="5166000" />
+      <workItem from="1626249981513" duration="11007000" />
     </task>
     <servers />
   </component>
@@ -218,7 +224,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/praktyka/FilesManagement.java</url>
-          <line>96</line>
+          <line>97</line>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
       </breakpoints>

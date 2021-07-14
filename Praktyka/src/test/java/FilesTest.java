@@ -2,18 +2,18 @@ import com.praktyka.FilesManagement;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Path;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 
 class FilesTest {
 
-    File test;
+    File test, test2;
     public FilesManagement testFolder;
 
     @TempDir
@@ -38,12 +38,12 @@ class FilesTest {
     @Test
     void testInfoFileIsAFile()  {
         test = new File(folder.getRoot().toString() + "\\testInfoFileIsAFile.txt");
-        assertTrue(testFolder.info("testInfoFileIsAFile.txt"),"tested file should be considered a file");
+        assertNotNull(testFolder.info("testInfoFileIsAFile.txt"),"tested file should be considered a file");
     }
 
     @Test
     void testInfoFileIsNotAFile()  {
-        assertFalse(testFolder.info("testInfoFileIsNotAFile.txt"), "tested file should not be considered a file");
+        assertNull(testFolder.info("testInfoFileIsNotAFile.txt"), "tested file should not be considered a file");
     }
 
     @Test
@@ -69,4 +69,15 @@ class FilesTest {
         testFolder.createFile("testCreateFileCreatedTextIsCorrect.txt", test);
         assertEquals(testFolder.readFile("testCreateFileCreatedTextIsCorrect.txt"), test, "Method createFile should create file with the same text as passed in the argument");
     }
+    @Test
+    void testInfoDateSwapIsCorrect()  {
+        test = new File(folder.getRoot().toString() + "\\testInfoDateSwapIsCorrect.txt");
+        test.setLastModified(1626247708);
+        test2 = new File(folder.getRoot().toString() + "\\testInfoDateSwapIsCorrect2.txt");
+        test.setLastModified(1584170908);
+        assertEquals(testFolder.info("15/07/2021","07/07/2021"),testFolder.info("07/07/2021","10/10/2021"), "Files found by dates should be the same when reversed");
+
+    }
+
+
 }
