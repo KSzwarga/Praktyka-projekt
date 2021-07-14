@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pl"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FilesManagement.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Praktyka</a> &gt; <a href="index.source.html" class="el_package">com.praktyka</a> &gt; <span class="el_source">FilesManagement.java</span></div><h1>FilesManagement.java</h1><pre class="source lang-java linenums">package com.praktyka;
+
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+
+public class FilesManagement {
+
+    public String dir;
+
+<span class="fc" id="L16">    public FilesManagement(String directory){</span>
+<span class="fc" id="L17">        dir =  directory + &quot;\\&quot;;</span>
+<span class="fc" id="L18">    }</span>
+
+    public boolean exists(String path){
+<span class="fc bfc" id="L21" title="All 2 branches covered.">        if (new File(dir + path).isFile()) {</span>
+<span class="fc" id="L22">            System.out.println(&quot;File:&quot; + path + &quot; - exists&quot;);</span>
+<span class="fc" id="L23">            return true;</span>
+        }
+        else {
+<span class="fc" id="L26">            System.out.println(&quot;File:&quot; + path + &quot; - does not exist&quot;);</span>
+<span class="fc" id="L27">            return false;</span>
+        }
+    }
+
+    public boolean info(String path) {
+<span class="fc" id="L32">        File file = new File(dir + path);</span>
+<span class="fc bfc" id="L33" title="All 2 branches covered.">        if (file.isFile()){</span>
+<span class="fc" id="L34">            System.out.println(&quot;File name:&quot; + file.getName());</span>
+<span class="fc" id="L35">            System.out.println(&quot;File path:&quot; + file.getAbsolutePath());</span>
+<span class="fc" id="L36">            System.out.println(&quot;File size:&quot; + file.length() +&quot; bytes&quot;);</span>
+<span class="fc" id="L37">            System.out.println(&quot;File last time modified:&quot; + new Date(file.lastModified())+&quot;\n&quot;);</span>
+<span class="fc" id="L38">            return true;</span>
+        }
+        else {
+<span class="fc" id="L41">            System.out.println(&quot;File doesnt exist.&quot;);</span>
+<span class="fc" id="L42">            return false;</span>
+        }
+    }
+
+    public boolean info(String dateFrom, String dateTo) {
+        try {
+<span class="nc" id="L48">            Date date1 = new SimpleDateFormat(&quot;dd/MM/yyyy&quot;).parse(dateFrom);</span>
+<span class="nc" id="L49">            Date date2 = new SimpleDateFormat(&quot;dd/MM/yyyy&quot;).parse(dateTo);</span>
+
+<span class="nc bnc" id="L51" title="All 2 branches missed.">            if (date2.before(date1)) {</span>
+                Date temp;
+<span class="nc" id="L53">                temp = date1;</span>
+<span class="nc" id="L54">                date1 = date2;</span>
+<span class="nc" id="L55">                date2 = temp;</span>
+            }
+
+<span class="nc" id="L58">            Date finalDate = date1;</span>
+<span class="nc" id="L59">            Date finalDate2 = date2;</span>
+
+<span class="nc" id="L61">            FileFilter fileFilter = file -&gt; {</span>
+<span class="nc bnc" id="L62" title="All 2 branches missed.">                if (!file.isFile()) return false;</span>
+<span class="nc" id="L63">                Date lastModified = new Date(file.lastModified());</span>
+<span class="nc bnc" id="L64" title="All 4 branches missed.">                return lastModified.after(finalDate) &amp;&amp; lastModified.before(finalDate2);</span>
+            };
+
+<span class="nc" id="L67">            File directory = new File(dir);</span>
+<span class="nc" id="L68">            File[] files = directory.listFiles(fileFilter);</span>
+<span class="nc bnc" id="L69" title="All 2 branches missed.">            if (files != null) {</span>
+<span class="nc bnc" id="L70" title="All 2 branches missed.">                for (File file : files) {</span>
+                    try {
+<span class="nc" id="L72">                        System.out.println(&quot;File name:&quot; + file.getName());</span>
+<span class="nc" id="L73">                        System.out.println(&quot;File path:&quot; + file.getAbsolutePath());</span>
+<span class="nc" id="L74">                        System.out.println(&quot;File size:&quot; + file.length() + &quot; bytes&quot;);</span>
+<span class="nc" id="L75">                        System.out.println(&quot;File last time modified:&quot; + new Date(file.lastModified()) + &quot;\n&quot;);</span>
+<span class="nc" id="L76">                    } catch (Exception e) {</span>
+<span class="nc" id="L77">                        e.printStackTrace();</span>
+<span class="nc" id="L78">                    }</span>
+<span class="nc" id="L79">                    return true;</span>
+                }
+            }
+<span class="nc" id="L82">        } catch (ParseException e) {</span>
+<span class="nc" id="L83">            e.printStackTrace();</span>
+<span class="nc" id="L84">        }</span>
+<span class="nc" id="L85">        return false;</span>
+    }
+
+    public void createFile(String path, String Content) {
+        try {
+<span class="fc" id="L90">            File newFile = new File(dir + path);</span>
+<span class="pc bpc" id="L91" title="1 of 2 branches missed.">            if (newFile.createNewFile()) {</span>
+<span class="fc" id="L92">                System.out.println(&quot;File created.&quot;);</span>
+<span class="fc" id="L93">                PrintWriter printWriter = new PrintWriter(dir + path, StandardCharsets.UTF_8);</span>
+<span class="fc" id="L94">                printWriter.write(Content);</span>
+<span class="fc" id="L95">                printWriter.close();</span>
+<span class="fc" id="L96">            } else {</span>
+<span class="nc" id="L97">                System.out.println(&quot;File already exists.&quot;);</span>
+            }
+
+        }
+<span class="nc" id="L101">         catch (IOException e) {</span>
+<span class="nc" id="L102">             System.out.println(&quot;An error occurred while creating or writing to a file.&quot;);</span>
+<span class="nc" id="L103">             e.printStackTrace();</span>
+<span class="fc" id="L104">        }</span>
+
+
+<span class="fc" id="L107">    }</span>
+
+    public String readFile(String path) {
+        try {
+<span class="fc" id="L111">            String content = Files.readString(Paths.get(dir + path));</span>
+<span class="fc" id="L112">            System.out.println(content + &quot;\n&quot;);</span>
+<span class="fc" id="L113">            return content;</span>
+<span class="nc" id="L114">        } catch (IOException e) {</span>
+<span class="nc" id="L115">            e.printStackTrace();</span>
+<span class="nc" id="L116">            return null;</span>
+        }
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

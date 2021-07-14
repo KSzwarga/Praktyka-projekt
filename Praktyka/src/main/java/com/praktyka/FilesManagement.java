@@ -1,17 +1,25 @@
 package com.praktyka;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileFilter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+
+import java.util.logging.*;
+import java.time.Instant;
 
 
 public class FilesManagement {
-
-    public String dir;
+    private static final Logger LOGGER = Logger.getLogger( FilesManagement.class.getName() );
+    
+    private final String dir;
 
     public FilesManagement(String directory){
         dir =  directory + "\\";
@@ -19,11 +27,10 @@ public class FilesManagement {
 
     public boolean exists(String path){
         if (new File(dir + path).isFile()) {
-            System.out.println("File:" + path + " - exists");
+            LOGGER.log(Level.INFO, "{0} - exists.", path);
             return true;
-        }
-        else {
-            System.out.println("File:" + path + " - does not exist");
+        } else {
+            LOGGER.log(Level.INFO, "{0} - does not exist.", path);
             return false;
         }
     }
@@ -31,76 +38,74 @@ public class FilesManagement {
     public boolean info(String path) {
         File file = new File(dir + path);
         if (file.isFile()){
-            System.out.println("File name:" + file.getName());
-            System.out.println("File path:" + file.getAbsolutePath());
-            System.out.println("File size:" + file.length() +" bytes");
-            System.out.println("File last time modified:" + new Date(file.lastModified())+"\n");
+            LOGGER.log(Level.INFO, "File name: {0} ", file.getName());
+            LOGGER.log(Level.INFO, "File path: {0} ", file.getAbsolutePath());
+            LOGGER.log(Level.INFO, "File size: {0} bytes ", file.length());
+            LocalDate localdate = Instant.ofEpochMilli(file.lastModified())
+                    .atZone(ZoneId.systemDefault()).toLocalDate();
+            LOGGER.log(Level.INFO, "File last time modified: {0} ", localdate);
             return true;
-        }
-        else {
-            System.out.println("File doesnt exist.");
+        } else {
+            LOGGER.log(Level.INFO, "file does not exist.");
             return false;
         }
     }
 
     public boolean info(String dateFrom, String dateTo) {
-        try {
-            Date date1 = new SimpleDateFormat("dd/MM/yyyy").parse(dateFrom);
-            Date date2 = new SimpleDateFormat("dd/MM/yyyy").parse(dateTo);
+        final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate date1 = LocalDate.parse(dateFrom, dtf);
+        LocalDate date2 = LocalDate.parse(dateTo, dtf);
 
-            if (date2.before(date1)) {
-                Date temp;
-                temp = date1;
-                date1 = date2;
-                date2 = temp;
+        if (date2.isBefore(date1)) {
+            LocalDate temp;
+            temp = date1;
+            date1 = date2;
+            date2 = temp;
+        }
+
+        LocalDate finalDate = date1;
+        LocalDate finalDate2 = date2;
+
+
+        FileFilter fileFilter = (File file) -> {
+            if (!file.isFile()) {
+                return false;
             }
+            LocalDate localdate = Instant.ofEpochMilli(file.lastModified())
+                    .atZone(ZoneId.systemDefault()).toLocalDate();
+            return localdate.isAfter(finalDate) && localdate.isBefore(finalDate2);
+        };
 
-            Date finalDate = date1;
-            Date finalDate2 = date2;
-
-            FileFilter fileFilter = file -> {
-                if (!file.isFile()) return false;
-                Date lastModified = new Date(file.lastModified());
-                return lastModified.after(finalDate) && lastModified.before(finalDate2);
-            };
-
-            File directory = new File(dir);
-            File[] files = directory.listFiles(fileFilter);
-            if (files != null) {
-                for (File file : files) {
-                    try {
-                        System.out.println("File name:" + file.getName());
-                        System.out.println("File path:" + file.getAbsolutePath());
-                        System.out.println("File size:" + file.length() + " bytes");
-                        System.out.println("File last time modified:" + new Date(file.lastModified()) + "\n");
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    return true;
-                }
+        File directory = new File(dir);
+        File[] files = directory.listFiles(fileFilter);
+        if (files != null) {
+            for (File file : files) {
+                LOGGER.log(Level.INFO, "File name: {0} ", file.getName());
+                LOGGER.log(Level.INFO, "File path: {0} ", file.getAbsolutePath());
+                LOGGER.log(Level.INFO, "File size: {0} bytes ", file.length());
+                LocalDate localdate = Instant.ofEpochMilli(file.lastModified())
+                        .atZone(ZoneId.systemDefault()).toLocalDate();
+                LOGGER.log(Level.INFO, "File last time modified: {0} ", localdate);
             }
-        } catch (ParseException e) {
-            e.printStackTrace();
+            return true;
         }
         return false;
     }
 
-    public void createFile(String path, String Content) {
+    public void createFile(String path, String content) {
         try {
             File newFile = new File(dir + path);
             if (newFile.createNewFile()) {
-                System.out.println("File created.");
+                LOGGER.log(Level.INFO, "File created.");
                 PrintWriter printWriter = new PrintWriter(dir + path, StandardCharsets.UTF_8);
-                printWriter.write(Content);
+                printWriter.write(content);
                 printWriter.close();
             } else {
-                System.out.println("File already exists.");
+                LOGGER.log(Level.INFO, "File already exists.");
             }
 
-        }
-         catch (IOException e) {
-             System.out.println("An error occurred while creating or writing to a file.");
-             e.printStackTrace();
+        } catch (IOException e) {
+            LOGGER.log( Level.SEVERE, e.toString(), e );
         }
 
 
@@ -109,10 +114,10 @@ public class FilesManagement {
     public String readFile(String path) {
         try {
             String content = Files.readString(Paths.get(dir + path));
-            System.out.println(content + "\n");
+            LOGGER.log( Level.INFO, content);
             return content;
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.log( Level.SEVERE, e.toString(), e );
             return null;
         }
     }

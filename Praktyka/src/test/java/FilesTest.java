@@ -1,71 +1,72 @@
 import com.praktyka.FilesManagement;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
-
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Path;
 
-import static org.junit.Assert.*;
 
-public class FilesTest {
+class FilesTest {
 
     File test;
     public FilesManagement testFolder;
 
-    @Rule
-    public TemporaryFolder folder = new TemporaryFolder();
+    @TempDir
+    static Path folder;
 
-    @Before
-    public void setUp()  {
+    @BeforeEach
+    void setUp()  {
         testFolder = new FilesManagement(folder.getRoot().toString());
     }
 
     @Test
-    public void test_exists_doesExist() throws IOException {
-        test = folder.newFile("test_exists_doesExist.txt");
-        assertTrue(testFolder.exists("test_exists_doesExist.txt"));
+    void testExistsDoesExist()  {
+        test = new File(folder.getRoot().toString() + "\\testExistsDoesExist.txt");
+        assertTrue(testFolder.exists("testExistsDoesExist.txt"),"file should exist");
     }
 
     @Test
-    public void test_exists_doesNotExist()  {
-        assertFalse(testFolder.exists("test_exists_doesNotExist.txt"));
+    void testExistsDoesNotExist()  {
+        assertFalse(testFolder.exists("testExistsDoesNotExist.txt"),"file should not exist");
     }
 
     @Test
-    public void test_info_fileIsAFile() throws IOException {
-        test = folder.newFile("test_info_fileIsAFile.txt");
-        assertTrue(testFolder.info("test_info_fileIsAFile.txt"));
+    void testInfoFileIsAFile()  {
+        test = new File(folder.getRoot().toString() + "\\testInfoFileIsAFile.txt");
+        assertTrue(testFolder.info("testInfoFileIsAFile.txt"),"tested file should be considered a file");
     }
 
     @Test
-    public void test_info_fileIsNotAFile()  {
-        assertFalse(testFolder.info("test_info_fileIsNotAFile.txt"));
+    void testInfoFileIsNotAFile()  {
+        assertFalse(testFolder.info("testInfoFileIsNotAFile.txt"), "tested file should not be considered a file");
     }
 
     @Test
-    public void test_createFile_FileIsCreated()  {
-        testFolder.createFile("test_createFile.txt", "testing text content");
-        test = new File(folder.getRoot().toString() + "\\test_createFile.txt");
-        assertTrue(test.exists());
+    void testCreateFileFileIsCreated()  {
+        testFolder.createFile("testCreateFileFileIsCreated.txt", "testing text content");
+        test = new File(folder.getRoot().toString() + "\\testCreateFileFileIsCreated.txt");
+        assertTrue( test.exists(),"created file should exist");
     }
 
 
     @Test
-    public void test_readFile() throws IOException {
+    void testReadFile() throws IOException {
         String test = "Testing reading from a file";
-        FileWriter myWriter = new FileWriter(folder.getRoot().toString() + "\\test_createFile.txt");
+        FileWriter myWriter = new FileWriter(folder.getRoot().toString() + "\\testReadFile.txt");
         myWriter.write(test);
         myWriter.close();
-        assertEquals(testFolder.readFile("test_createFile.txt"), test);
+        assertEquals(testFolder.readFile("testReadFile.txt"), test,"method readFile should give the same result as content of the text file");
     }
 
     @Test
-    public void test_createFile_createdTextIsCorrect() {
+    void testCreateFileCreatedTextIsCorrect() {
         String test = "Testing reading from a created file";
-        testFolder.createFile("test_createFile_createdTextIsCorrect.txt", test);
-        assertEquals(testFolder.readFile("test_createFile_createdTextIsCorrect.txt"), test);
+        testFolder.createFile("testCreateFileCreatedTextIsCorrect.txt", test);
+        assertEquals(testFolder.readFile("testCreateFileCreatedTextIsCorrect.txt"), test, "Method createFile should create file with the same text as passed in the argument");
     }
 }
