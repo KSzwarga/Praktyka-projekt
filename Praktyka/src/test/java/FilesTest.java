@@ -7,13 +7,15 @@ import org.junit.jupiter.api.io.TempDir;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
+
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class FilesTest {
 
-    File test, test2;
+    Path test, test2;
     public FilesManagement testFolder;
 
     @TempDir
@@ -21,12 +23,12 @@ class FilesTest {
 
     @BeforeEach
     void setUp()  {
-        testFolder = new FilesManagement(folder.getRoot().toString());
+        testFolder = new FilesManagement(folder.toFile().getAbsolutePath());
     }
 
     @Test
-    void testExistsDoesExist()  {
-        test = new File(folder.getRoot().toString() + "\\testExistsDoesExist.txt");
+    void testExistsDoesExist() throws IOException {
+        test = Files.createFile(folder.resolve("testExistsDoesExist.txt"));
         assertTrue(testFolder.exists("testExistsDoesExist.txt"),"file should exist");
     }
 
@@ -36,15 +38,15 @@ class FilesTest {
     }
 
     @Test
-    void testInfoFileIsAFile()  {
-        test = new File(folder.getRoot().toString() + "\\testInfoFileIsAFile.txt");
+    void testInfoFileIsAFile() throws IOException {
+        test = Files.createFile(folder.resolve("testInfoFileIsAFile.txt"));
         assertNotNull(testFolder.info("testInfoFileIsAFile.txt"),"tested file should be considered a file");
     }
 
     @Test
-    void testInfoFileReturn()  {
-        test = new File(folder.getRoot().toString() + "\\testInfoFileReturn.txt");
-        assertEquals(testFolder.info("testInfoFileReturn.txt"), test, "method should return file");
+    void testInfoFileReturn() throws IOException {
+        test = Files.createFile(folder.resolve("testInfoFileReturn.txt"));
+        assertEquals(testFolder.info("testInfoFileReturn.txt"), test.toFile(), "method should return file");
     }
 
     @Test
@@ -60,15 +62,13 @@ class FilesTest {
     @Test
     void testCreateFileFileIsCreated()  {
         testFolder.createFile("testCreateFileFileIsCreated.txt", "testing text content");
-        test = new File(folder.getRoot().toString() + "\\testCreateFileFileIsCreated.txt");
-        assertTrue( test.exists(),"created file should exist");
+        assertTrue( testFolder.exists("testCreateFileFileIsCreated.txt"),"created file should exist");
     }
-
 
     @Test
     void testReadFile() throws IOException {
         String test = "Testing reading from a file";
-        FileWriter myWriter = new FileWriter(folder.getRoot().toString() + "\\testReadFile.txt");
+        FileWriter myWriter = new FileWriter(folder.toFile().getAbsolutePath() + "\\testReadFile.txt");
         myWriter.write(test);
         myWriter.close();
         assertEquals(testFolder.readFile("testReadFile.txt"), test,"method readFile should give the same result as content of the text file");
@@ -86,31 +86,38 @@ class FilesTest {
         assertEquals(testFolder.readFile("testCreateFileCreatedTextIsCorrect.txt"), test, "Method createFile should create file with the same text as passed in the argument");
     }
     @Test
-    void testInfoDateSwapIsCorrect()  {
-        test = new File(folder.getRoot().toString() + "\\testInfoDateSwapIsCorrect.txt");
-        test.setLastModified(1626247708);
-        test2 = new File(folder.getRoot().toString() + "\\testInfoDateSwapIsCorrect2.txt");
-        test.setLastModified(1584170908);
-        assertEquals(testFolder.info("15/07/2021","07/07/2021"),testFolder.info("07/07/2021","10/10/2021"), "Files found by dates should be the same when reversed");
+    void testInfoDateSwapIsCorrect() throws IOException {
+        test = Files.createFile(folder.resolve("testInfoDateSwapIsCorrect.txt"));
+        File testfile = new File(test.toString());
+        testfile.setLastModified(1437987756000L);
+        test2 = Files.createFile(folder.resolve("testInfoDateSwapIsCorrect2.txt"));
+        File test2file = new File(test2.toString());
+        test2file.setLastModified(1439752556000L);
+        assertEquals(java.util.Arrays.toString(testFolder.info("15/07/2015", "17/08/2015")),
+                java.util.Arrays.toString(testFolder.info("17/08/2015", "15/07/2015")),
+                "Methods should return the same files regardless of date order");
     }
 
     @Test
-    void testInfoDateNotNull()  {
-        test = new File(folder.getRoot().toString() + "\\testInfoDateNotNull.txt");
-        test.setLastModified(1626247708);
-        assertNotNull(testFolder.info("15/07/2021","07/07/2021"), "Files found by dates should be not null");
+    void testInfoDateNotNull() throws IOException {
+        test = Files.createFile(folder.resolve("testInfoDateNotNull.txt"));
+        File testfile = new File(test.toString());
+        testfile.setLastModified(1437987756000L);
+        assertNotNull(java.util.Arrays.toString(testFolder.info("15/07/2015", "17/08/2015")), "Files found by dates should be not null");
     }
 
     @Test
-    void testInfoDateFileReturn()  {
-        test = new File(folder.getRoot().toString() + "\\testInfoFileIsAFile.txt");
-        test.setLastModified(1626247708);
-        test2 = new File(folder.getRoot().toString() + "\\testInfoFileIsAFile2.txt");
-        test2.setLastModified(1626247708);
+    void testInfoDateFileReturn() throws IOException {
+        test = Files.createFile(folder.resolve("testInfoDateFileReturn.txt"));
+        File testfile = new File(test.toString());
+        testfile.setLastModified(1437987756000L);
+        test2 = Files.createFile(folder.resolve("testInfoDateFileReturn2.txt"));
+        File test2file = new File(test2.toString());
+        test2file.setLastModified(1439752556000L);
         File[] files = new File[2];
-        files[0] = test;
-        files[1] = test2;
-        assertEquals(testFolder.info("15/07/2021","07/07/2021"), files, "Return of method should be same as files array");
+        files[0] = testfile;
+        files[1] = test2file;
+        assertEquals(java.util.Arrays.toString(testFolder.info("15/07/2015", "17/08/2015")), java.util.Arrays.toString(files), "Return of method should be same as files array");
     }
 
 }
