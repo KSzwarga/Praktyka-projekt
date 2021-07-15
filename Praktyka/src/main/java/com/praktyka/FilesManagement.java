@@ -90,7 +90,7 @@ public class FilesManagement {
             }
             return files;
         }
-        return null;
+        return new File[0];
     }
 
     public void createFile(String path, String content) {

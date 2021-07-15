@@ -1,4 +1,5 @@
 import com.praktyka.FilesManagement;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
@@ -9,7 +10,6 @@ import java.io.IOException;
 import java.nio.file.Path;
 
 import static org.junit.jupiter.api.Assertions.*;
-
 
 class FilesTest {
 
@@ -42,6 +42,17 @@ class FilesTest {
     }
 
     @Test
+    void testInfoFileReturn()  {
+        test = new File(folder.getRoot().toString() + "\\testInfoFileReturn.txt");
+        assertEquals(testFolder.info("testInfoFileReturn.txt"), test, "method should return file");
+    }
+
+    @Test
+    void testInfoFileNull()  {
+        assertNull(testFolder.info("testInfoFileReturnNotExists.txt"), "method should return null, file doesnt exist");
+    }
+
+    @Test
     void testInfoFileIsNotAFile()  {
         assertNull(testFolder.info("testInfoFileIsNotAFile.txt"), "tested file should not be considered a file");
     }
@@ -64,6 +75,11 @@ class FilesTest {
     }
 
     @Test
+    void testReadFileNull()  {
+       assertNull(testFolder.readFile("testReadFileNull.txt"), "file should not exist and return null");
+    }
+
+    @Test
     void testCreateFileCreatedTextIsCorrect() {
         String test = "Testing reading from a created file";
         testFolder.createFile("testCreateFileCreatedTextIsCorrect.txt", test);
@@ -76,8 +92,25 @@ class FilesTest {
         test2 = new File(folder.getRoot().toString() + "\\testInfoDateSwapIsCorrect2.txt");
         test.setLastModified(1584170908);
         assertEquals(testFolder.info("15/07/2021","07/07/2021"),testFolder.info("07/07/2021","10/10/2021"), "Files found by dates should be the same when reversed");
-
     }
 
+    @Test
+    void testInfoDateNotNull()  {
+        test = new File(folder.getRoot().toString() + "\\testInfoDateNotNull.txt");
+        test.setLastModified(1626247708);
+        assertNotNull(testFolder.info("15/07/2021","07/07/2021"), "Files found by dates should be not null");
+    }
+
+    @Test
+    void testInfoDateFileReturn()  {
+        test = new File(folder.getRoot().toString() + "\\testInfoFileIsAFile.txt");
+        test.setLastModified(1626247708);
+        test2 = new File(folder.getRoot().toString() + "\\testInfoFileIsAFile2.txt");
+        test2.setLastModified(1626247708);
+        File[] files = new File[2];
+        files[0] = test;
+        files[1] = test2;
+        assertEquals(testFolder.info("15/07/2021","07/07/2021"), files, "Return of method should be same as files array");
+    }
 
 }
