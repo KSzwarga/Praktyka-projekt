@@ -1,8 +1,8 @@
-package com.praktyka.DTO;
+package com.praktyka.dto;
 
 import java.time.LocalDate;
 
-public class PostRequest {
+public class CaseRequest {
     private String caseNumber;
     private int vehicleId;
     private LocalDate creationDate;
