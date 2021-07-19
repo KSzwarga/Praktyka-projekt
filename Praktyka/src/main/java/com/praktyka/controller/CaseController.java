@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
+
 @RestController
 public class CaseController {
 
@@ -39,5 +41,19 @@ public class CaseController {
     public Case getCaseNumber(@RequestParam int caseNumber) {
         return caseService.findCaseByCaseNumber(caseNumber);
     }
+
+    @GetMapping("/getAllCases")
+    @ResponseBody
+    public List<Case> getAllCases() {
+        return caseService.findAll();
+    }
+
+
+    @PostMapping("/saveCase")
+    public Case saveCase(@RequestBody Case theCase){
+        return (caseService.save(theCase));
+    }
+
+
 
 }

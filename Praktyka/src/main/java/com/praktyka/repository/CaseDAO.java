@@ -8,4 +8,5 @@ import java.util.List;
 public interface CaseDAO extends CrudRepository<Case, String> {
     Case findCaseByCaseNumber(int caseNumber);
     List<Case> findAll();
+    Case save(Case d);
 }

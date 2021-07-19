@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface CaseService {
     Case findCaseByCaseNumber(int caseNumber);
+    List<Case> findAll();
+    Case save(Case d);
 }

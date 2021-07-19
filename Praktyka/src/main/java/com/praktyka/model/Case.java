@@ -1,21 +1,19 @@
 package com.praktyka.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "sys_case", schema = "cases")
 public class Case {
     @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name="case_number")
     private int caseNumber;
     @Column(name="vehicle_id")
-    private int vehicleId;
+    private Integer vehicleId;
     @Column(name="filing_date")
-    private LocalDate creationDate;
+    private LocalDate filingDate;
     @Column(name="punishment_date")
     private LocalDate punishmentDate;
     @Column(name="case_type_code")
@@ -25,10 +23,11 @@ public class Case {
 
     protected Case() {}
 
-    public Case(int caseNumber, int vehicleId, LocalDate creationDate, String caseType, String caseStatus) {
+    public Case(int caseNumber, Integer vehicleId, LocalDate creationDate, LocalDate punishmentDate, String caseType, String caseStatus) {
         this.caseNumber = caseNumber;
         this.vehicleId = vehicleId;
-        this.creationDate = creationDate;
+        this.filingDate = creationDate;
+        this.punishmentDate = punishmentDate;
         this.caseType = caseType;
         this.caseStatus = caseStatus;
     }
@@ -38,12 +37,12 @@ public class Case {
         return caseNumber;
     }
 
-    public int getVehicleId() {
+    public Integer getVehicleId() {
         return vehicleId;
     }
 
-    public LocalDate getCreationDate() {
-        return creationDate;
+    public LocalDate getFilingDate() {
+        return filingDate;
     }
 
     public LocalDate getPunishmentDate() {
@@ -62,12 +61,12 @@ public class Case {
         this.caseNumber = caseNumber;
     }
 
-    public void setVehicleId(int vehicleId) {
+    public void setVehicleId(Integer vehicleId) {
         this.vehicleId = vehicleId;
     }
 
-    public void setCreationDate(LocalDate creationDate) {
-        this.creationDate = creationDate;
+    public void setFilingDate(LocalDate creationDate) {
+        this.filingDate = creationDate;
     }
 
     public void setPunishmentDate(LocalDate punishmentDate) {
@@ -86,8 +85,9 @@ public class Case {
     public String toString() {
         return "Case{" +
                 "caseNumber='" + caseNumber + '\'' +
-                ", vehicleId=" + vehicleId +
-                ", creationDate=" + creationDate +
+                ", vehicleId=" + vehicleId + '\'' +
+                ", creationDate=" + filingDate + '\'' +
+                ", punishmentDate=" + punishmentDate + '\'' +
                 ", caseType='" + caseType + '\'' +
                 ", caseStatus='" + caseStatus + '\'' +
                 '}';

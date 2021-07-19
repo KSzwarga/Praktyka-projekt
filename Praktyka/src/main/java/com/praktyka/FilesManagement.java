@@ -36,16 +36,19 @@ public class FilesManagement {
             return false;
         }
     }
+    public static  void showInfo(File file) {
+        LOGGER.log(Level.INFO, "File name: {0} ", file.getName());
+        LOGGER.log(Level.INFO, "File path: {0} ", file.getAbsolutePath());
+        LOGGER.log(Level.INFO, "File size: {0} bytes ", file.length());
+        LocalDate localdate = Instant.ofEpochMilli(file.lastModified())
+                .atZone(ZoneId.systemDefault()).toLocalDate();
+        LOGGER.log(Level.INFO, "File last time modified: {0} ", localdate);
+    }
 
     public File info(String path) {
         File file = new File(dir + path);
-        if (file.isFile()){
-            LOGGER.log(Level.INFO, "File name: {0} ", file.getName());
-            LOGGER.log(Level.INFO, "File path: {0} ", file.getAbsolutePath());
-            LOGGER.log(Level.INFO, "File size: {0} bytes ", file.length());
-            LocalDate localdate = Instant.ofEpochMilli(file.lastModified())
-                    .atZone(ZoneId.systemDefault()).toLocalDate();
-            LOGGER.log(Level.INFO, "File last time modified: {0} ", localdate);
+        if (file.exists()){
+            showInfo(file);
             return file;
         } else {
             LOGGER.log(Level.INFO, "file does not exist.");
@@ -69,7 +72,7 @@ public class FilesManagement {
         LocalDate finalDate2 = date2;
 
         FileFilter fileFilter = (File file) -> {
-            if (!file.isFile()) {
+            if (!file.exists()) {
                 return false;
             }
             LocalDate localdate = Instant.ofEpochMilli(file.lastModified())
@@ -81,12 +84,7 @@ public class FilesManagement {
         File[] files = directory.listFiles(fileFilter);
         if (files != null) {
             for (File file : files) {
-                LOGGER.log(Level.INFO, "File name: {0} ", file.getName());
-                LOGGER.log(Level.INFO, "File path: {0} ", file.getAbsolutePath());
-                LOGGER.log(Level.INFO, "File size: {0} bytes ", file.length());
-                LocalDate localdate = Instant.ofEpochMilli(file.lastModified())
-                        .atZone(ZoneId.systemDefault()).toLocalDate();
-                LOGGER.log(Level.INFO, "File last time modified: {0} ", localdate);
+                showInfo(file);
             }
             return files;
         }

@@ -6,6 +6,8 @@ import com.praktyka.repository.CaseDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 @Service
 public class CaseServiceImpl implements CaseService{
@@ -20,5 +22,15 @@ public class CaseServiceImpl implements CaseService{
     public Case findCaseByCaseNumber(int caseNumber) {
         return caseDAO.findCaseByCaseNumber(caseNumber);
     }
+
+    @Override
+    public List<Case> findAll() {
+        return caseDAO.findAll();
+    }
+    @Override
+    public Case save(Case d) {
+        return caseDAO.save(d);
+    }
+
 }
 
