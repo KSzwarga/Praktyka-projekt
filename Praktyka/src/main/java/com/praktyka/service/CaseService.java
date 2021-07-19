@@ -9,4 +9,5 @@ public interface CaseService {
     Case findCaseByCaseNumber(int caseNumber);
     List<Case> findAll();
     Case save(Case d);
+    void updateStatus(int caseNumber, String caseStatus);
 }

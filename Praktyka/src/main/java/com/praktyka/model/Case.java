@@ -18,8 +18,8 @@ public class Case {
     private LocalDate punishmentDate;
     @Column(name="case_type_code")
     private String caseType;
-    @Column(name="status_code")
-    private String caseStatus;
+    @Column(name="case_status_code")
+    public String caseStatus;
 
     protected Case() {}
 

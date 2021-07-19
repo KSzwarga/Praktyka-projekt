@@ -5,12 +5,7 @@ import com.praktyka.dto.CaseResponse;
 import com.praktyka.model.Case;
 import com.praktyka.service.CaseService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -52,6 +47,11 @@ public class CaseController {
     @PostMapping("/saveCase")
     public Case saveCase(@RequestBody Case theCase){
         return (caseService.save(theCase));
+    }
+
+    @PutMapping ("/updateCaseStatus")
+    public void updateCaseStatus(@RequestParam int caseNumber, @RequestParam String caseStatus){
+        caseService.updateStatus(caseNumber, caseStatus);
     }
 
 

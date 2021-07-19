@@ -17,12 +17,10 @@ public class CaseServiceImpl implements CaseService{
     public CaseServiceImpl(CaseDAO theCaseDAO){
         caseDAO = theCaseDAO;
     }
-
     @Override
     public Case findCaseByCaseNumber(int caseNumber) {
         return caseDAO.findCaseByCaseNumber(caseNumber);
     }
-
     @Override
     public List<Case> findAll() {
         return caseDAO.findAll();
@@ -30,6 +28,11 @@ public class CaseServiceImpl implements CaseService{
     @Override
     public Case save(Case d) {
         return caseDAO.save(d);
+    }
+
+    @Override
+    public void updateStatus(int caseNumber, String caseStatus) {
+        caseDAO.updateStatus(caseNumber, caseStatus);
     }
 
 }
