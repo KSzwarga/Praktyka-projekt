@@ -1,8 +1,9 @@
 package com.praktyka.controller;
 
+
+import com.praktyka.model.Case;
 import com.praktyka.dto.CaseRequest;
 import com.praktyka.dto.CaseResponse;
-import com.praktyka.model.Case;
 import com.praktyka.service.CaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -32,13 +33,11 @@ public class CaseController {
     }
 
     @GetMapping("/getCase")
-    @ResponseBody
     public Case getCaseNumber(@RequestParam int caseNumber) {
         return caseService.findCaseByCaseNumber(caseNumber);
     }
 
     @GetMapping("/getAllCases")
-    @ResponseBody
     public List<Case> getAllCases() {
         return caseService.findAll();
     }

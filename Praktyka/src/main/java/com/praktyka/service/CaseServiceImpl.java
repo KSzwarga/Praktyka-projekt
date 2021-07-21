@@ -26,8 +26,8 @@ public class CaseServiceImpl implements CaseService{
         return caseDAO.findAll();
     }
     @Override
-    public Case save(Case d) {
-        return caseDAO.save(d);
+    public Case save(Case theCase) {
+        return caseDAO.save(theCase);
     }
 
     @Override
