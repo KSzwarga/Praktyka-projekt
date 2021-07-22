@@ -23,6 +23,7 @@ public class FilesManagement {
 
     private final String dir;
 
+    public FilesManagement() {dir = "";}
     public FilesManagement(String directory){
         dir =  directory + "\\";
     }
