@@ -1,10 +1,13 @@
 package com.praktyka.service;
 
-import com.praktyka.dto.DocumentDTO;
-import com.praktyka.model.Document;
 
+import com.praktyka.model.Document;
+import java.io.File;
 
 
 public interface DocumentService {
-    Document createDocument(DocumentDTO theDocumentDTO, String text);
+    Document createDocument(Document theDocument, String text);
+    String info(String path);
+    File[] info(String path, String dateFrom, String dateTo);
+    String readDocument(String path);
 }

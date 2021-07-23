@@ -1,14 +1,15 @@
 package com.praktyka.controller;
 
 
+import com.praktyka.dto.CaseDTO;
 import com.praktyka.model.Case;
-import com.praktyka.dto.CaseRequest;
-import com.praktyka.dto.CaseResponse;
 import com.praktyka.service.CaseService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 public class CaseController {
@@ -16,41 +17,40 @@ public class CaseController {
     private final CaseService caseService;
 
     @Autowired
+    private ModelMapper modelMapper;
+
+    @Autowired
     public CaseController(CaseService theCaseService){
         caseService = theCaseService;
     }
 
-    @PostMapping(value = "/createCase", consumes={"application/json"})
-    public CaseResponse createCase(@RequestBody CaseRequest inputPayload) {
-        CaseResponse response = new CaseResponse();
-        response.setCaseNumber(inputPayload.getCaseNumber());
-        response.getVehicleId(inputPayload.getVehicleId());
-        response.getCreationDate(inputPayload.getCreationDate());
-        response.getPunishmentDate(inputPayload.getPunishmentDate());
-        response.getCaseType(inputPayload.getCaseType());
-        response.getCaseStatus(inputPayload.getCaseStatus());
-        return response;
-    }
-
     @GetMapping("/getCase")
-    public Case getCaseNumber(@RequestParam int caseNumber) {
-        return caseService.findCaseByCaseNumber(caseNumber);
+    public CaseDTO getCaseNumber(@RequestParam int caseNumber) {
+        Case theCase = caseService.findCaseByCaseNumber(caseNumber);
+        CaseDTO caseResponse = modelMapper.map(theCase, CaseDTO.class);
+        return caseResponse;
     }
 
     @GetMapping("/getAllCases")
-    public List<Case> getAllCases() {
-        return caseService.findAll();
+    public List<CaseDTO> getAllCases() {
+        return caseService.findAll().stream().map(theCase -> modelMapper.map(theCase, CaseDTO.class))
+                .collect(Collectors.toList());
     }
 
 
     @PostMapping("/saveCase")
-    public Case saveCase(@RequestBody Case theCase){
-        return (caseService.save(theCase));
+    public CaseDTO saveCase(@RequestBody CaseDTO caseDTO){
+        Case caseRequest = modelMapper.map(caseDTO, Case.class);
+        Case theCase = caseService.save(caseRequest);
+        CaseDTO caseResponse = modelMapper.map(theCase, CaseDTO.class);
+        return caseResponse;
     }
 
     @PutMapping ("/updateCaseStatus")
-    public void updateCaseStatus(@RequestParam int caseNumber, @RequestParam String caseStatus){
-        caseService.updateStatus(caseNumber, caseStatus);
+    public CaseDTO updateCaseStatus(@RequestParam int caseNumber, @RequestParam String caseStatus){
+        Case theCase = caseService.updateStatus(caseNumber, caseStatus);
+        CaseDTO caseResponse = modelMapper.map(theCase, CaseDTO.class);
+        return caseResponse;
     }
 
 

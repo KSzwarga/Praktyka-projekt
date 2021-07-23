@@ -3,7 +3,6 @@ package com.praktyka.controller;
 
 import com.praktyka.dto.DictionaryDTO;
 import com.praktyka.model.*;
-import com.praktyka.repository.BrandModelDAO;
 import com.praktyka.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,22 +18,22 @@ public class DictionaryController {
     private final CaseStatusService caseStatusService;
     private final CaseTypeService caseTypeService;
     private final DocumentTypeService documentTypeService;
-    private final IncomingCorrespondanceTypeService incomingCorrespondanceTypeService;
-    private final OutgoingCorrespondanceTypeService outgoingCorrespondanceTypeService;
+    private final IncomingCorrespondenceTypeService incomingCorrespondenceTypeService;
+    private final OutgoingCorrespondenceTypeService outgoingCorrespondenceTypeService;
     private final BrandModelService brandModelService;
 
     @Autowired
     public DictionaryController(ColorService theColorService, CaseStatusService theCaseStatusService,
                                 CaseTypeService theCaseTypeService, DocumentTypeService theDocumentTypeService,
-                                IncomingCorrespondanceTypeService theIncomingCorrespondanceTypeService,
-                                OutgoingCorrespondanceTypeService theOutgoingCorrespondanceTypeService,
+                                IncomingCorrespondenceTypeService theIncomingCorrespondenceTypeService,
+                                OutgoingCorrespondenceTypeService theOutgoingCorrespondenceTypeService,
                                 BrandModelService theBrandModelService){
         colorService = theColorService;
         caseStatusService = theCaseStatusService;
         caseTypeService = theCaseTypeService;
         documentTypeService = theDocumentTypeService;
-        incomingCorrespondanceTypeService = theIncomingCorrespondanceTypeService;
-        outgoingCorrespondanceTypeService = theOutgoingCorrespondanceTypeService;
+        incomingCorrespondenceTypeService = theIncomingCorrespondenceTypeService;
+        outgoingCorrespondenceTypeService = theOutgoingCorrespondenceTypeService;
         brandModelService = theBrandModelService;
 
     }
@@ -87,29 +86,29 @@ public class DictionaryController {
         }
         return documentTypesDTO;
     }
-    @GetMapping(value = "/getAllIncomingCorrespondanceTypes")
-    public List<DictionaryDTO> getAllIncomingCorrespondanceTypes() {
-        List<IncomingCorrespondanceType> incomingCorrespondanceTypes = incomingCorrespondanceTypeService.findAll();
-        List<DictionaryDTO> incomingCorrespondanceTypesDTO = new ArrayList<>();
-        for (IncomingCorrespondanceType incomingCorrespondanceType : incomingCorrespondanceTypes) {
-            DictionaryDTO incomingCorrespondanceTypeDTO = new DictionaryDTO();
-            incomingCorrespondanceTypeDTO.setCode(incomingCorrespondanceType.getIncomingCorrespondanceTypeCode());
-            incomingCorrespondanceTypeDTO.setDescription(incomingCorrespondanceType.getIncomingCorrespondanceTypeDescription());
-            incomingCorrespondanceTypesDTO.add(incomingCorrespondanceTypeDTO);
+    @GetMapping(value = "/getAllIncomingCorrespondenceTypes")
+    public List<DictionaryDTO> getAllIncomingCorrespondenceTypes() {
+        List<IncomingCorrespondenceType> incomingCorrespondenceTypes = incomingCorrespondenceTypeService.findAll();
+        List<DictionaryDTO> incomingCorrespondenceTypesDTO = new ArrayList<>();
+        for (IncomingCorrespondenceType incomingCorrespondenceType : incomingCorrespondenceTypes) {
+            DictionaryDTO incomingCorrespondenceTypeDTO = new DictionaryDTO();
+            incomingCorrespondenceTypeDTO.setCode(incomingCorrespondenceType.getIncomingCorrespondenceTypeCode());
+            incomingCorrespondenceTypeDTO.setDescription(incomingCorrespondenceType.getIncomingCorrespondenceTypeDescription());
+            incomingCorrespondenceTypesDTO.add(incomingCorrespondenceTypeDTO);
         }
-        return incomingCorrespondanceTypesDTO;
+        return incomingCorrespondenceTypesDTO;
     }
-    @GetMapping(value = "/getAllOutgoingCorrespondanceTypes")
-    public List<DictionaryDTO> getAllOutgoingCorrespondanceTypes() {
-        List<OutgoingCorrespondanceType> outgoingCorrespondanceTypes = outgoingCorrespondanceTypeService.findAll();
-        List<DictionaryDTO> outgoingCorrespondanceTypesDTO = new ArrayList<>();
-        for (OutgoingCorrespondanceType outgoingCorrespondanceType : outgoingCorrespondanceTypes) {
-            DictionaryDTO outgoingCorrespondanceTypeDTO = new DictionaryDTO();
-            outgoingCorrespondanceTypeDTO.setCode(outgoingCorrespondanceType.getOutgoingCorrespondanceTypeCode());
-            outgoingCorrespondanceTypeDTO.setDescription(outgoingCorrespondanceType.getOutgoingCorrespondanceTypeDescription());
-            outgoingCorrespondanceTypesDTO.add(outgoingCorrespondanceTypeDTO);
+    @GetMapping(value = "/getAllOutgoingCorrespondenceTypes")
+    public List<DictionaryDTO> getAllOutgoingCorrespondenceTypes() {
+        List<OutgoingCorrespondenceType> outgoingCorrespondenceTypes = outgoingCorrespondenceTypeService.findAll();
+        List<DictionaryDTO> outgoingCorrespondenceTypesDTO = new ArrayList<>();
+        for (OutgoingCorrespondenceType outgoingCorrespondenceType : outgoingCorrespondenceTypes) {
+            DictionaryDTO outgoingCorrespondenceTypeDTO = new DictionaryDTO();
+            outgoingCorrespondenceTypeDTO.setCode(outgoingCorrespondenceType.getOutgoingCorrespondenceTypeCode());
+            outgoingCorrespondenceTypeDTO.setDescription(outgoingCorrespondenceType.getOutgoingCorrespondenceTypeDescription());
+            outgoingCorrespondenceTypesDTO.add(outgoingCorrespondenceTypeDTO);
         }
-        return outgoingCorrespondanceTypesDTO;
+        return outgoingCorrespondenceTypesDTO;
     }
     @GetMapping(value = "/getAllBrandsAndModels")
     public List<DictionaryDTO> getAllBrandsAndModels() {

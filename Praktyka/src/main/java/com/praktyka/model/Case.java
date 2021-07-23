@@ -23,10 +23,10 @@ public class Case {
 
     protected Case() {}
 
-    public Case(int caseNumber, Integer vehicleId, LocalDate creationDate, LocalDate punishmentDate, String caseType, String caseStatus) {
+    public Case(int caseNumber, Integer vehicleId, LocalDate filingDate, LocalDate punishmentDate, String caseType, String caseStatus) {
         this.caseNumber = caseNumber;
         this.vehicleId = vehicleId;
-        this.filingDate = creationDate;
+        this.filingDate = filingDate;
         this.punishmentDate = punishmentDate;
         this.caseType = caseType;
         this.caseStatus = caseStatus;
@@ -86,7 +86,7 @@ public class Case {
         return "Case{" +
                 "caseNumber='" + caseNumber + '\'' +
                 ", vehicleId=" + vehicleId + '\'' +
-                ", creationDate=" + filingDate + '\'' +
+                ", filingDate=" + filingDate + '\'' +
                 ", punishmentDate=" + punishmentDate + '\'' +
                 ", caseType='" + caseType + '\'' +
                 ", caseStatus='" + caseStatus + '\'' +

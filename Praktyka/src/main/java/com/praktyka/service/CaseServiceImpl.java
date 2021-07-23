@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-
 @Service
 public class CaseServiceImpl implements CaseService{
 
@@ -31,8 +30,10 @@ public class CaseServiceImpl implements CaseService{
     }
 
     @Override
-    public void updateStatus(int caseNumber, String caseStatus) {
-        caseDAO.updateStatus(caseNumber, caseStatus);
+    public Case updateStatus(int caseNumber, String caseStatus) {
+        Case theCase = caseDAO.findCaseByCaseNumber(caseNumber);
+        theCase.setCaseStatus(caseStatus);
+        return caseDAO.save(theCase);
     }
 
 }
