@@ -30,15 +30,16 @@ public class DocumentController {
         return documentService.info(path);
     }
 
-    @GetMapping("/infoDocumentDate")
+    @GetMapping("/infoDocumentsByDate")
     public List<String> infoDocument(@RequestParam String path, @RequestParam String dateFrom, @RequestParam String dateTo){
         File[] files = documentService.info(path, dateFrom, dateTo);
-        List<String> infos = new ArrayList<String>();
+        List<String> infos = new ArrayList<>();
         for (File file : files) {
             infos.add(documentService.info(file.getAbsolutePath()));
         }
         return infos;
     }
+
     @GetMapping("/readDocument")
     public String readDocument(@RequestParam String path){
         return documentService.readDocument(path);
@@ -48,9 +49,6 @@ public class DocumentController {
     public DocumentDTO createDocument(@RequestBody DocumentDTO documentDTO, @RequestParam String text){
         Document documentRequest = modelMapper.map(documentDTO, Document.class);
         Document document = documentService.createDocument(documentRequest, text);
-        DocumentDTO documentResponse = modelMapper.map(document, DocumentDTO.class);
-        return documentResponse;
+        return modelMapper.map(document, DocumentDTO.class);
     }
-
-
 }

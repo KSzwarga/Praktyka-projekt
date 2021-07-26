@@ -1,9 +1,8 @@
 package com.praktyka.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "color", schema = "cases")
@@ -13,6 +12,9 @@ public class Color {
     private String colorCode;
     @Column(name="description")
     private String colorDescription;
+
+    @OneToMany(mappedBy = "colorCode")
+    private List<Vehicle> vehicles = new ArrayList<>();
 
     protected Color() {}
 

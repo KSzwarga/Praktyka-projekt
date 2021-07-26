@@ -1,11 +1,7 @@
-import com.praktyka.service.FilesManagementService;
 import com.praktyka.service.FilesManagementServiceImpl;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.springframework.beans.factory.annotation.Autowired;
+
 
 import java.io.File;
 import java.io.FileWriter;
@@ -17,7 +13,7 @@ import java.nio.file.Path;
 import static org.junit.jupiter.api.Assertions.*;
 
 
-class FilesTest {
+class FilesManagementServiceTest {
     Path test, test2;
     public FilesManagementServiceImpl testFolder = new FilesManagementServiceImpl();
 
@@ -85,8 +81,8 @@ class FilesTest {
         test2 = Files.createFile(folder.resolve("testInfoDateSwapIsCorrect2.txt"));
         File test2file = new File(test2.toString());
         test2file.setLastModified(1439752556000L);
-        assertEquals(java.util.Arrays.toString(testFolder.info(folder.toFile().getAbsolutePath(),"15/07/2015", "17/08/2015")),
-                java.util.Arrays.toString(testFolder.info(folder.toFile().getAbsolutePath(),"17/08/2015", "15/07/2015")),
+        assertEquals(java.util.Arrays.toString(testFolder.info(folder.toFile().getAbsolutePath(),"2015-07-15", "2015-08-17")),
+                java.util.Arrays.toString(testFolder.info(folder.toFile().getAbsolutePath(),"2015-08-17", "2015-07-15")),
                 "Methods should return the same files regardless of date order");
     }
 
@@ -95,7 +91,7 @@ class FilesTest {
         test = Files.createFile(folder.resolve("testInfoDateNotNull.txt"));
         File testfile = new File(test.toString());
         testfile.setLastModified(1437987756000L);
-        assertNotNull(java.util.Arrays.toString(testFolder.info(folder.toFile().getAbsolutePath(), "15/07/2015", "17/08/2015")), "Files found by dates should be not null");
+        assertNotNull(java.util.Arrays.toString(testFolder.info(folder.toFile().getAbsolutePath(), "2015-07-15", "2015-08-17")), "Files found by dates should be not null");
     }
 
     @Test
@@ -109,7 +105,7 @@ class FilesTest {
         File[] files = new File[2];
         files[0] = testfile;
         files[1] = test2file;
-        assertEquals(java.util.Arrays.toString(testFolder.info(folder.toFile().getAbsolutePath(), "15/07/2015", "17/08/2015")), java.util.Arrays.toString(files), "Return of method should be same as files array");
+        assertEquals(java.util.Arrays.toString(testFolder.info(folder.toFile().getAbsolutePath(), "2015-07-15", "2015-08-17")), java.util.Arrays.toString(files), "Return of method should be same as files array");
     }
 
 }

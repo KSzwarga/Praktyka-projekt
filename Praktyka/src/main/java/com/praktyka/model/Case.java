@@ -10,8 +10,9 @@ public class Case {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name="case_number")
     private int caseNumber;
-    @Column(name="vehicle_id")
-    private Integer vehicleId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "vehicle_id")
+    private Vehicle vehicleId;
     @Column(name="filing_date")
     private LocalDate filingDate;
     @Column(name="punishment_date")
@@ -21,9 +22,10 @@ public class Case {
     @Column(name="case_status_code")
     public String caseStatus;
 
+
     protected Case() {}
 
-    public Case(int caseNumber, Integer vehicleId, LocalDate filingDate, LocalDate punishmentDate, String caseType, String caseStatus) {
+    public Case(int caseNumber, Vehicle vehicleId, LocalDate filingDate, LocalDate punishmentDate, String caseType, String caseStatus) {
         this.caseNumber = caseNumber;
         this.vehicleId = vehicleId;
         this.filingDate = filingDate;
@@ -37,7 +39,7 @@ public class Case {
         return caseNumber;
     }
 
-    public Integer getVehicleId() {
+    public Vehicle getVehicleId() {
         return vehicleId;
     }
 
@@ -61,7 +63,7 @@ public class Case {
         this.caseNumber = caseNumber;
     }
 
-    public void setVehicleId(Integer vehicleId) {
+    public void setVehicleId(Vehicle vehicleId) {
         this.vehicleId = vehicleId;
     }
 
