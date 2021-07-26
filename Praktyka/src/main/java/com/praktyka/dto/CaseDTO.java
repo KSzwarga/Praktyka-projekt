@@ -7,7 +7,7 @@ public class CaseDTO {
     private int vehicleId;
     private LocalDate filingDate;
     private LocalDate punishmentDate;
-    private String caseType;
+    private String caseTypeCode;
     private String caseStatus;
 
 
@@ -25,10 +25,6 @@ public class CaseDTO {
 
     public LocalDate getPunishmentDate() {
         return punishmentDate;
-    }
-
-    public String getCaseType() {
-        return caseType;
     }
 
     public String getCaseStatus() {
@@ -51,11 +47,16 @@ public class CaseDTO {
         this.punishmentDate = punishmentDate;
     }
 
-    public void setCaseType(String caseType) {
-        this.caseType = caseType;
-    }
-
     public void setCaseStatus(String caseStatus) {
         this.caseStatus = caseStatus;
+    }
+
+
+    public String getCaseTypeCode() {
+        return caseTypeCode;
+    }
+
+    public void setCaseTypeCode(String caseTypeCode) {
+        this.caseTypeCode = caseTypeCode;
     }
 }

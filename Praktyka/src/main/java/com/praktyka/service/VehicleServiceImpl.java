@@ -42,5 +42,58 @@ public class VehicleServiceImpl implements  VehicleService{
         return vehicleDAO.yearForCaseType(caseType);
     }
 
+    @Override
+    public List<String> distinctColors() {
+        return vehicleDAO.distinctColors();
+    }
 
+    @Override
+    public List<String> distinctBrands() {
+        return vehicleDAO.distinctBrands();
+    }
+
+    @Override
+    public List<String> distinctModels() {
+        return  vehicleDAO.distinctModels();
+    }
+
+    @Override
+    public List<String> distinctYears() {
+        return vehicleDAO.distinctYears();
+    }
+
+    @Override
+    public List<CountQueryResultDTO> caseTypeForColor(String color) {
+       return vehicleDAO.caseTypeForColor(color);
+    }
+
+    @Override
+    public List<CountQueryResultDTO> caseTypeForBrand(String brand) {
+        return vehicleDAO.caseTypeForBrand(brand);
+    }
+
+    @Override
+    public List<CountQueryResultDTO> caseTypeForModel(String model) {
+        return vehicleDAO.caseTypeForModel(model);
+    }
+
+    @Override
+    public List<CountQueryResultDTO> caseTypeForYear(String year) {
+        return vehicleDAO.caseTypeForYear(year);
+    }
+
+    @Override
+    public List<CountQueryResultDTO> statisticsByYearByColor(String year, String color) {
+        return vehicleDAO.statisticsByYearByColor(year, color);
+    }
+
+    @Override
+    public List<CountQueryResultDTO> statisticsByYearByBrand(String year, String brand){
+        return vehicleDAO.statisticsByYearByBrand(year, brand);
+    }
+
+    @Override
+    public List<CountQueryResultDTO> statisticsByYearByModel(String year, String model){
+        return vehicleDAO.statisticsByYearByModel(year, model);
+    }
 }

@@ -10,27 +10,32 @@ public class Case {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name="case_number")
     private int caseNumber;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "vehicle_id")
     private Vehicle vehicleId;
+
     @Column(name="filing_date")
     private LocalDate filingDate;
     @Column(name="punishment_date")
     private LocalDate punishmentDate;
-    @Column(name="case_type_code")
-    private String caseType;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "case_type_code")
+    private CaseType caseTypeCode;
+
     @Column(name="case_status_code")
     public String caseStatus;
 
 
     protected Case() {}
 
-    public Case(int caseNumber, Vehicle vehicleId, LocalDate filingDate, LocalDate punishmentDate, String caseType, String caseStatus) {
+    public Case(int caseNumber, Vehicle vehicleId, LocalDate filingDate, LocalDate punishmentDate, CaseType caseTypeCode, String caseStatus) {
         this.caseNumber = caseNumber;
         this.vehicleId = vehicleId;
         this.filingDate = filingDate;
         this.punishmentDate = punishmentDate;
-        this.caseType = caseType;
+        this.caseTypeCode = caseTypeCode;
         this.caseStatus = caseStatus;
     }
 
@@ -51,8 +56,8 @@ public class Case {
         return punishmentDate;
     }
 
-    public String getCaseType() {
-        return caseType;
+    public CaseType getCaseTypeCode() {
+        return caseTypeCode;
     }
 
     public String getCaseStatus() {
@@ -75,8 +80,8 @@ public class Case {
         this.punishmentDate = punishmentDate;
     }
 
-    public void setCaseType(String caseType) {
-        this.caseType = caseType;
+    public void setCaseTypeCode(CaseType caseType) {
+        this.caseTypeCode = caseType;
     }
 
     public void setCaseStatus(String caseStatus) {
@@ -90,7 +95,7 @@ public class Case {
                 ", vehicleId=" + vehicleId + '\'' +
                 ", filingDate=" + filingDate + '\'' +
                 ", punishmentDate=" + punishmentDate + '\'' +
-                ", caseType='" + caseType + '\'' +
+                ", caseTypeCode='" + caseTypeCode + '\'' +
                 ", caseStatus='" + caseStatus + '\'' +
                 '}';
     }
