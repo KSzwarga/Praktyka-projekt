@@ -22,7 +22,7 @@ public class Vehicle {
     @Column(name="model")
     private String model;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne()
     @JoinColumn(name = "color_code")
     private Color colorCode;
 

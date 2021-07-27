@@ -11,4 +11,5 @@ public interface CaseService {
     List<Case> findAll();
     Case save(Case theCase);
     Case updateStatus(int caseNumber, String caseStatus);
+    List<Case> findAllByCaseNumber(String surname);
 }

@@ -2,7 +2,6 @@ package com.praktyka.dto;
 
 public class CountQueryResultDTO {
     private String key;
-    private String keyOptional;
     private Long count;
 
     public CountQueryResultDTO(String key, Long count) {

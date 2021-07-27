@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@RestController("/Case")
+
+@RestController()
+@RequestMapping("/case")
 public class CaseController {
 
     private final CaseService caseService;
@@ -52,6 +54,12 @@ public class CaseController {
         CaseDTO caseResponse = modelMapper.map(theCase, CaseDTO.class);
         return caseResponse;
     }
+
+    @GetMapping ("/findByName")
+    public List<Case> updateCaseStatus(@RequestParam String surname){
+        return caseService.findAllByCaseNumber(surname);
+    }
+
 
 
 

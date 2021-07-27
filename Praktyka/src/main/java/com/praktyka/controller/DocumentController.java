@@ -14,6 +14,7 @@ import java.util.List;
 
 
 @RestController
+@RequestMapping("/Document")
 public class DocumentController {
     private final DocumentService documentService;
 

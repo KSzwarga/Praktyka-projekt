@@ -10,8 +10,9 @@ public class Document {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name="document_id")
     private Integer documentId;
-    @Column(name="case_number")
-    private Integer caseNumber;
+    @ManyToOne
+    @JoinColumn(name="case_number", nullable=false)
+    private Case caseNumber;
     @Column(name="reference_number")
     private String referenceNumber;
     @Column(name="document_date")
@@ -21,9 +22,18 @@ public class Document {
     @Column(name="file_path")
     private String filePath;
 
+    @OneToOne(mappedBy = "document")
+    @PrimaryKeyJoinColumn
+    private OutgoingCorrespondence outgoingCorrespondence;
+
+    @OneToOne(mappedBy = "document")
+    @PrimaryKeyJoinColumn
+    private IncomingCorrespondence incomingCorrespondence;
+
+
     public Document() {}
 
-    public Document(Integer documentId, Integer caseNumber, String referenceNumber, LocalDate documentDate, String documentTypeCode, String filePath) {
+    public Document(Integer documentId, Case caseNumber, String referenceNumber, LocalDate documentDate, String documentTypeCode, String filePath) {
         this.documentId = documentId;
         this.caseNumber = caseNumber;
         this.referenceNumber = referenceNumber;
@@ -40,11 +50,11 @@ public class Document {
         this.documentId = documentId;
     }
 
-    public Integer getCaseNumber() {
+    public Case getCaseNumber() {
         return caseNumber;
     }
 
-    public void setCaseNumber(Integer caseNumber) {
+    public void setCaseNumber(Case caseNumber) {
         this.caseNumber = caseNumber;
     }
 

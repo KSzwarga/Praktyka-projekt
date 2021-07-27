@@ -1,7 +1,10 @@
 package com.praktyka.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.Set;
 
 @Entity
 @Table(name = "sys_case", schema = "cases")
@@ -11,7 +14,7 @@ public class Case {
     @Column(name="case_number")
     private int caseNumber;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne()
     @JoinColumn(name = "vehicle_id")
     private Vehicle vehicleId;
 
@@ -20,12 +23,15 @@ public class Case {
     @Column(name="punishment_date")
     private LocalDate punishmentDate;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne()
     @JoinColumn(name = "case_type_code")
     private CaseType caseTypeCode;
 
     @Column(name="case_status_code")
     public String caseStatus;
+
+    @OneToMany(mappedBy="caseNumber")
+    private Set<Document> documents;
 
 
     protected Case() {}
