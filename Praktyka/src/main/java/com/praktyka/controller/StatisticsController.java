@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/Statistics")
+@RequestMapping("/statistics")
 public class StatisticsController {
     private final VehicleService vehicleService;
 
@@ -30,16 +30,24 @@ public class StatisticsController {
     }
 
     @GetMapping("/colorForCaseType")
-    public List<CountQueryResultDTO> colorForCaseType(@RequestParam String caseType) {return vehicleService.colorForCaseType(caseType);}
+    public List<CountQueryResultDTO> colorForCaseType(@RequestParam String caseType) {
+        return vehicleService.colorForCaseType(caseType);
+    }
 
     @GetMapping("/brandForCaseType")
-    public List<CountQueryResultDTO> brandForCaseType(@RequestParam String caseType) {return vehicleService.brandForCaseType(caseType);}
+    public List<CountQueryResultDTO> brandForCaseType(@RequestParam String caseType) {
+        return vehicleService.brandForCaseType(caseType);
+    }
 
     @GetMapping("/modelForCaseType")
-    public List<CountQueryResultDTO> modelForCaseType(@RequestParam String caseType) {return vehicleService.modelForCaseType(caseType);}
+    public List<CountQueryResultDTO> modelForCaseType(@RequestParam String caseType) {
+        return vehicleService.modelForCaseType(caseType);
+    }
 
     @GetMapping("/yearForCaseType")
-    public List<CountQueryResultDTO> yearForCaseType(@RequestParam String caseType) {return vehicleService.yearForCaseType(caseType);}
+    public List<CountQueryResultDTO> yearForCaseType(@RequestParam String caseType) {
+        return vehicleService.yearForCaseType(caseType);
+    }
 
     @GetMapping("/statisticsByColor")
     public List<StatisticQueryResultDTO> statisticsByColor() {

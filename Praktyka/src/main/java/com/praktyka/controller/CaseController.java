@@ -6,7 +6,13 @@ import com.praktyka.model.Case;
 import com.praktyka.service.CaseService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,8 +35,7 @@ public class CaseController {
     @GetMapping("/getCase")
     public CaseDTO getCaseNumber(@RequestParam int caseNumber) {
         Case theCase = caseService.findCaseByCaseNumber(caseNumber);
-        CaseDTO caseResponse = modelMapper.map(theCase, CaseDTO.class);
-        return caseResponse;
+        return modelMapper.map(theCase, CaseDTO.class);
     }
 
     @GetMapping("/getAllCases")
@@ -44,20 +49,19 @@ public class CaseController {
     public CaseDTO saveCase(@RequestBody CaseDTO caseDTO){
         Case caseRequest = modelMapper.map(caseDTO, Case.class);
         Case theCase = caseService.save(caseRequest);
-        CaseDTO caseResponse = modelMapper.map(theCase, CaseDTO.class);
-        return caseResponse;
+        return modelMapper.map(theCase, CaseDTO.class);
     }
 
     @PutMapping ("/updateCaseStatus")
     public CaseDTO updateCaseStatus(@RequestParam int caseNumber, @RequestParam String caseStatus){
         Case theCase = caseService.updateStatus(caseNumber, caseStatus);
-        CaseDTO caseResponse = modelMapper.map(theCase, CaseDTO.class);
-        return caseResponse;
+        return modelMapper.map(theCase, CaseDTO.class);
     }
 
     @GetMapping ("/findByName")
-    public List<Case> updateCaseStatus(@RequestParam String surname){
-        return caseService.findAllByCaseNumber(surname);
+    public List<CaseDTO> findAllByCaseNumber(@RequestParam String surname){
+        return caseService.findAllByCaseNumber(surname).stream().map(theCase -> modelMapper.map(theCase, CaseDTO.class))
+                .collect(Collectors.toList());
     }
 
 
