@@ -1,0 +1,4 @@
+
+×
+java:S4605
+"¹'ColorServiceImpl' is not reachable by @ComponentsScan or @SpringBootApplication. Either move it to a package configured in @ComponentsScan or update your @ComponentsScan configuration.(¢¦¦¶8½ìôé¬/

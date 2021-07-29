@@ -1,0 +1,5 @@
+
+K
+java:S2208	".Explicitly import the specific classes needed.(Ñ»ïÒ8Œ­•ô­/
+Þ
+java:S4605"»'DocumentController' is not reachable by @ComponentsScan or @SpringBootApplication. Either move it to a package configured in @ComponentsScan or update your @ComponentsScan configuration.(›ÀÏ…üÿÿÿÿ8Œ­•ô­/

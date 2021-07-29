@@ -1,0 +1,3 @@
+
+ή
+java:S4605"ΐ'DocumentTypeServiceImpl' is not reachable by @ComponentsScan or @SpringBootApplication. Either move it to a package configured in @ComponentsScan or update your @ComponentsScan configuration.(σ–Ίπ8κ΅Οι¬/

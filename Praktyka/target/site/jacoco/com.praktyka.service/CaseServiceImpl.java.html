@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pl"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CaseServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">praktyka</a> &gt; <a href="index.source.html" class="el_package">com.praktyka.service</a> &gt; <span class="el_source">CaseServiceImpl.java</span></div><h1>CaseServiceImpl.java</h1><pre class="source lang-java linenums">package com.praktyka.service;
+
+
+import com.praktyka.model.Case;
+import com.praktyka.repository.CaseDAO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public class CaseServiceImpl implements CaseService{
+
+    private final CaseDAO caseDAO;
+    @Autowired
+<span class="nc" id="L16">    public CaseServiceImpl(CaseDAO theCaseDAO){</span>
+<span class="nc" id="L17">        caseDAO = theCaseDAO;</span>
+<span class="nc" id="L18">    }</span>
+    @Override
+    public Case findCaseByCaseNumber(int caseNumber) {
+<span class="nc" id="L21">        return caseDAO.findCaseByCaseNumber(caseNumber);</span>
+    }
+    @Override
+    public List&lt;Case&gt; findAll() {
+<span class="nc" id="L25">        return caseDAO.findAll();</span>
+    }
+    @Override
+    public Case save(Case theCase) {
+<span class="nc" id="L29">        return caseDAO.save(theCase);</span>
+    }
+
+    @Override
+    public Case updateStatus(int caseNumber, String caseStatus) {
+<span class="nc" id="L34">        Case theCase = caseDAO.findCaseByCaseNumber(caseNumber);</span>
+<span class="nc" id="L35">        theCase.setCaseStatus(caseStatus);</span>
+<span class="nc" id="L36">        return caseDAO.save(theCase);</span>
+    }
+
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

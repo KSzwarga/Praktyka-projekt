@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pl"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DictionaryController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">praktyka</a> &gt; <a href="index.source.html" class="el_package">com.praktyka.controller</a> &gt; <span class="el_source">DictionaryController.java</span></div><h1>DictionaryController.java</h1><pre class="source lang-java linenums">package com.praktyka.controller;
+
+
+import com.praktyka.dto.DictionaryDTO;
+import com.praktyka.model.*;
+import com.praktyka.service.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@RestController
+public class DictionaryController {
+
+    private final ColorService colorService;
+    private final CaseStatusService caseStatusService;
+    private final CaseTypeService caseTypeService;
+    private final DocumentTypeService documentTypeService;
+    private final IncomingCorrespondenceTypeService incomingCorrespondenceTypeService;
+    private final OutgoingCorrespondenceTypeService outgoingCorrespondenceTypeService;
+    private final BrandModelService brandModelService;
+
+    @Autowired
+    public DictionaryController(ColorService theColorService, CaseStatusService theCaseStatusService,
+                                CaseTypeService theCaseTypeService, DocumentTypeService theDocumentTypeService,
+                                IncomingCorrespondenceTypeService theIncomingCorrespondenceTypeService,
+                                OutgoingCorrespondenceTypeService theOutgoingCorrespondenceTypeService,
+<span class="nc" id="L30">                                BrandModelService theBrandModelService){</span>
+<span class="nc" id="L31">        colorService = theColorService;</span>
+<span class="nc" id="L32">        caseStatusService = theCaseStatusService;</span>
+<span class="nc" id="L33">        caseTypeService = theCaseTypeService;</span>
+<span class="nc" id="L34">        documentTypeService = theDocumentTypeService;</span>
+<span class="nc" id="L35">        incomingCorrespondenceTypeService = theIncomingCorrespondenceTypeService;</span>
+<span class="nc" id="L36">        outgoingCorrespondenceTypeService = theOutgoingCorrespondenceTypeService;</span>
+<span class="nc" id="L37">        brandModelService = theBrandModelService;</span>
+
+<span class="nc" id="L39">    }</span>
+
+    @GetMapping(value = &quot;/getAllColors&quot;)
+    public List&lt;DictionaryDTO&gt; getAllColors() {
+<span class="nc" id="L43">        List&lt;Color&gt; colors = colorService.findAll();</span>
+<span class="nc" id="L44">        List&lt;DictionaryDTO&gt; colorsDTO = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L45" title="All 2 branches missed.">        for (Color color : colors) {</span>
+<span class="nc" id="L46">            DictionaryDTO colorDTO = new DictionaryDTO();</span>
+<span class="nc" id="L47">            colorDTO.setCode(color.getColorCode());</span>
+<span class="nc" id="L48">            colorDTO.setDescription(color.getColorDescription());</span>
+<span class="nc" id="L49">            colorsDTO.add(colorDTO);</span>
+<span class="nc" id="L50">        }</span>
+<span class="nc" id="L51">        return colorsDTO;</span>
+    }
+    @GetMapping(value = &quot;/getAllCaseStatuses&quot;)
+    public List&lt;DictionaryDTO&gt; getAllCaseStatuses() {
+<span class="nc" id="L55">        List&lt;CaseStatus&gt; caseStatuses = caseStatusService.findAll();</span>
+<span class="nc" id="L56">        List&lt;DictionaryDTO&gt; caseStatusesDTO = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L57" title="All 2 branches missed.">        for (CaseStatus status : caseStatuses) {</span>
+<span class="nc" id="L58">            DictionaryDTO caseStatusDTO = new DictionaryDTO();</span>
+<span class="nc" id="L59">            caseStatusDTO.setCode(status.getCaseStatusCode());</span>
+<span class="nc" id="L60">            caseStatusDTO.setDescription(status.getCaseStatusDescription());</span>
+<span class="nc" id="L61">            caseStatusesDTO.add(caseStatusDTO);</span>
+<span class="nc" id="L62">        }</span>
+<span class="nc" id="L63">        return caseStatusesDTO;</span>
+    }
+    @GetMapping(value = &quot;/getAllCaseTypes&quot;)
+    public List&lt;DictionaryDTO&gt; getAllCaseTypes() {
+<span class="nc" id="L67">        List&lt;CaseType&gt; caseTypes = caseTypeService.findAll();</span>
+<span class="nc" id="L68">        List&lt;DictionaryDTO&gt; caseTypesDTO = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L69" title="All 2 branches missed.">        for (CaseType type : caseTypes) {</span>
+<span class="nc" id="L70">            DictionaryDTO caseTypeDTO = new DictionaryDTO();</span>
+<span class="nc" id="L71">            caseTypeDTO.setCode(type.getCaseTypeCode());</span>
+<span class="nc" id="L72">            caseTypeDTO.setDescription(type.getCaseTypeDescription());</span>
+<span class="nc" id="L73">            caseTypesDTO.add(caseTypeDTO);</span>
+<span class="nc" id="L74">        }</span>
+<span class="nc" id="L75">        return caseTypesDTO;</span>
+    }
+    @GetMapping(value = &quot;/getAllDocumentTypes&quot;)
+    public List&lt;DictionaryDTO&gt; getAllDocumentTypes() {
+<span class="nc" id="L79">        List&lt;DocumentType&gt; documentTypes = documentTypeService.findAll();</span>
+<span class="nc" id="L80">        List&lt;DictionaryDTO&gt; documentTypesDTO = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L81" title="All 2 branches missed.">        for (DocumentType documentType : documentTypes) {</span>
+<span class="nc" id="L82">            DictionaryDTO documentTypeDTO = new DictionaryDTO();</span>
+<span class="nc" id="L83">            documentTypeDTO.setCode(documentType.getDocumentTypeCode());</span>
+<span class="nc" id="L84">            documentTypeDTO.setDescription(documentType.getDocumentTypeDescription());</span>
+<span class="nc" id="L85">            documentTypesDTO.add(documentTypeDTO);</span>
+<span class="nc" id="L86">        }</span>
+<span class="nc" id="L87">        return documentTypesDTO;</span>
+    }
+    @GetMapping(value = &quot;/getAllIncomingCorrespondenceTypes&quot;)
+    public List&lt;DictionaryDTO&gt; getAllIncomingCorrespondenceTypes() {
+<span class="nc" id="L91">        List&lt;IncomingCorrespondenceType&gt; incomingCorrespondenceTypes = incomingCorrespondenceTypeService.findAll();</span>
+<span class="nc" id="L92">        List&lt;DictionaryDTO&gt; incomingCorrespondenceTypesDTO = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L93" title="All 2 branches missed.">        for (IncomingCorrespondenceType incomingCorrespondenceType : incomingCorrespondenceTypes) {</span>
+<span class="nc" id="L94">            DictionaryDTO incomingCorrespondenceTypeDTO = new DictionaryDTO();</span>
+<span class="nc" id="L95">            incomingCorrespondenceTypeDTO.setCode(incomingCorrespondenceType.getIncomingCorrespondenceTypeCode());</span>
+<span class="nc" id="L96">            incomingCorrespondenceTypeDTO.setDescription(incomingCorrespondenceType.getIncomingCorrespondenceTypeDescription());</span>
+<span class="nc" id="L97">            incomingCorrespondenceTypesDTO.add(incomingCorrespondenceTypeDTO);</span>
+<span class="nc" id="L98">        }</span>
+<span class="nc" id="L99">        return incomingCorrespondenceTypesDTO;</span>
+    }
+    @GetMapping(value = &quot;/getAllOutgoingCorrespondenceTypes&quot;)
+    public List&lt;DictionaryDTO&gt; getAllOutgoingCorrespondenceTypes() {
+<span class="nc" id="L103">        List&lt;OutgoingCorrespondenceType&gt; outgoingCorrespondenceTypes = outgoingCorrespondenceTypeService.findAll();</span>
+<span class="nc" id="L104">        List&lt;DictionaryDTO&gt; outgoingCorrespondenceTypesDTO = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L105" title="All 2 branches missed.">        for (OutgoingCorrespondenceType outgoingCorrespondenceType : outgoingCorrespondenceTypes) {</span>
+<span class="nc" id="L106">            DictionaryDTO outgoingCorrespondenceTypeDTO = new DictionaryDTO();</span>
+<span class="nc" id="L107">            outgoingCorrespondenceTypeDTO.setCode(outgoingCorrespondenceType.getOutgoingCorrespondenceTypeCode());</span>
+<span class="nc" id="L108">            outgoingCorrespondenceTypeDTO.setDescription(outgoingCorrespondenceType.getOutgoingCorrespondenceTypeDescription());</span>
+<span class="nc" id="L109">            outgoingCorrespondenceTypesDTO.add(outgoingCorrespondenceTypeDTO);</span>
+<span class="nc" id="L110">        }</span>
+<span class="nc" id="L111">        return outgoingCorrespondenceTypesDTO;</span>
+    }
+    @GetMapping(value = &quot;/getAllBrandsAndModels&quot;)
+    public List&lt;DictionaryDTO&gt; getAllBrandsAndModels() {
+<span class="nc" id="L115">        List&lt;BrandModel&gt; brandsAndModels = brandModelService.findAll();</span>
+<span class="nc" id="L116">        List&lt;DictionaryDTO&gt; brandsAndModelsDTO = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L117" title="All 2 branches missed.">        for (BrandModel brandModel : brandsAndModels) {</span>
+<span class="nc" id="L118">            DictionaryDTO brandModelDTO = new DictionaryDTO();</span>
+<span class="nc" id="L119">            brandModelDTO.setCode(brandModel.getBrand() + &quot; &quot; + brandModel.getModel());</span>
+<span class="nc" id="L120">            brandModelDTO.setDescription(null);</span>
+<span class="nc" id="L121">            brandsAndModelsDTO.add(brandModelDTO);</span>
+<span class="nc" id="L122">        }</span>
+<span class="nc" id="L123">        return brandsAndModelsDTO;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

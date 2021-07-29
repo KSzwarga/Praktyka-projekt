@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pl"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Case.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">praktyka</a> &gt; <a href="index.source.html" class="el_package">com.praktyka.model</a> &gt; <span class="el_source">Case.java</span></div><h1>Case.java</h1><pre class="source lang-java linenums">package com.praktyka.model;
+
+import javax.persistence.*;
+import java.time.LocalDate;
+
+@Entity
+@Table(name = &quot;sys_case&quot;, schema = &quot;cases&quot;)
+public class Case {
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @Column(name=&quot;case_number&quot;)
+    private int caseNumber;
+    @Column(name=&quot;vehicle_id&quot;)
+    private Integer vehicleId;
+    @Column(name=&quot;filing_date&quot;)
+    private LocalDate filingDate;
+    @Column(name=&quot;punishment_date&quot;)
+    private LocalDate punishmentDate;
+    @Column(name=&quot;case_type_code&quot;)
+    private String caseType;
+    @Column(name=&quot;case_status_code&quot;)
+    public String caseStatus;
+
+<span class="nc" id="L24">    protected Case() {}</span>
+
+<span class="nc" id="L26">    public Case(int caseNumber, Integer vehicleId, LocalDate filingDate, LocalDate punishmentDate, String caseType, String caseStatus) {</span>
+<span class="nc" id="L27">        this.caseNumber = caseNumber;</span>
+<span class="nc" id="L28">        this.vehicleId = vehicleId;</span>
+<span class="nc" id="L29">        this.filingDate = filingDate;</span>
+<span class="nc" id="L30">        this.punishmentDate = punishmentDate;</span>
+<span class="nc" id="L31">        this.caseType = caseType;</span>
+<span class="nc" id="L32">        this.caseStatus = caseStatus;</span>
+<span class="nc" id="L33">    }</span>
+
+
+    public int getCaseNumber() {
+<span class="nc" id="L37">        return caseNumber;</span>
+    }
+
+    public Integer getVehicleId() {
+<span class="nc" id="L41">        return vehicleId;</span>
+    }
+
+    public LocalDate getFilingDate() {
+<span class="nc" id="L45">        return filingDate;</span>
+    }
+
+    public LocalDate getPunishmentDate() {
+<span class="nc" id="L49">        return punishmentDate;</span>
+    }
+
+    public String getCaseType() {
+<span class="nc" id="L53">        return caseType;</span>
+    }
+
+    public String getCaseStatus() {
+<span class="nc" id="L57">        return caseStatus;</span>
+    }
+
+    public void setCaseNumber(int caseNumber) {
+<span class="nc" id="L61">        this.caseNumber = caseNumber;</span>
+<span class="nc" id="L62">    }</span>
+
+    public void setVehicleId(Integer vehicleId) {
+<span class="nc" id="L65">        this.vehicleId = vehicleId;</span>
+<span class="nc" id="L66">    }</span>
+
+    public void setFilingDate(LocalDate creationDate) {
+<span class="nc" id="L69">        this.filingDate = creationDate;</span>
+<span class="nc" id="L70">    }</span>
+
+    public void setPunishmentDate(LocalDate punishmentDate) {
+<span class="nc" id="L73">        this.punishmentDate = punishmentDate;</span>
+<span class="nc" id="L74">    }</span>
+
+    public void setCaseType(String caseType) {
+<span class="nc" id="L77">        this.caseType = caseType;</span>
+<span class="nc" id="L78">    }</span>
+
+    public void setCaseStatus(String caseStatus) {
+<span class="nc" id="L81">        this.caseStatus = caseStatus;</span>
+<span class="nc" id="L82">    }</span>
+
+    @Override
+    public String toString() {
+<span class="nc" id="L86">        return &quot;Case{&quot; +</span>
+                &quot;caseNumber='&quot; + caseNumber + '\'' +
+                &quot;, vehicleId=&quot; + vehicleId + '\'' +
+                &quot;, filingDate=&quot; + filingDate + '\'' +
+                &quot;, punishmentDate=&quot; + punishmentDate + '\'' +
+                &quot;, caseType='&quot; + caseType + '\'' +
+                &quot;, caseStatus='&quot; + caseStatus + '\'' +
+                '}';
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
